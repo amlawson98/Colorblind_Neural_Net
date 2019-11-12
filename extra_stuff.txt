@@ -1,0 +1,161 @@
+# def colorblind_array(img):
+#     img = img.rotate(-90)
+#     size = np.shape(img)[0]
+#     img = convertToLMS(img, size, size)
+#     if conversion == 'protanopia':
+#         img = ConvertToProtanopes(img, size, size)
+#     if conversion == 'deuteranopia':
+#         img = ConvertToDeuteranopes(img, size, size)
+#     if conversion == 'tritanopia':
+#         img = ConvertToTritanopes(img, size, size)
+#     img = convertToRGB(img, size, size)
+#     img = rgb2lab(img)
+#     return img
+
+
+
+
+
+
+# def get_Ytrain(conversion):
+#     r = []
+#     #im_dir = 'SUN2012_no_subfolders'
+#     if conversion == 'protanopia':
+#         im_dir = 'SUN2012_deuteranopia'
+#     if conversion == 'deuteranopia':
+#         im_dir = 'SUN2012_protanopia'
+#     if conversion == 'tritanopia':
+#         im_dir = 'SUN2012_tritanopia'
+#     else:
+#         return
+#     r = glob.glob(os.path.join(im_dir, '*.png'))
+#     img_array = []
+#     for entry in tqdm(r, total=len(r)):
+#         try:
+#             im = misc.imread(entry)
+#             img_array.append(im)
+#         except:
+#             print("this entry did not work:" + entry)
+#     Y = np.array(img_array, dtype=float)
+#     Y = 1.0/255*Y
+#     return Y
+
+#Ytrain = get_Ytrain(conversion = conversion)
+
+
+
+# # Get images
+# X = []
+# for filename in os.listdir('../Train/'):
+#     X.append(img_to_array(load_img('../Train/'+filename)))
+# X = np.array(X, dtype=float)
+
+# Set up training and test data
+# X = get_X()
+# split = int(0.95*len(X))
+# Xtrain = X[:split]
+# Xtrain = 1.0/255*Xtrain
+
+
+
+
+
+
+
+
+# Generate training data
+# def image_a_b_gen(batch_size):
+#     for batch in datagen.flow(Xtrain, batch_size=batch_size):
+#         lab_batch = rgb2lab(batch)
+#         X_batch = lab_batch[:,:,:,0]
+#         Y_batch = lab_batch[:,:,:,1:] / 128
+#         yield (X_batch.reshape(X_batch.shape+(1,)), Y_batch)
+
+# def image_a_b_gen_train(batch_size):
+#     for batch in datagen.flow(Xtrain, batch_size=batch_size):
+#         split_batch = int(0.90*len(batch))
+#         lab_batch = rgb2lab(batch)
+#         if conversion == 'gray':
+#             X_batch = lab_batch[:,:,:,0]
+#             Y_batch = lab_batch[:,:,:,1:] / 128
+#         else:
+#             colorblind_batch = batch[:,:,:,0] * 255
+#             Y_batch = batch[:,:,:,0] * 255
+#             colorblind_whole = simulate_array(batch, daltonize)
+#             for i in range(np.shape(colorblind_batch)[0]):
+#                 colorblind_piece = colorblind_whole[i]
+#                 hsv_piece_colorblind = rgb2hsv(colorblind_piece)
+#                 # hsv_piece_colorblind = lab2hsv(colorblind_piece)
+#                 X_piece = hsv_piece_colorblind[:,:,0]
+#                 Y_peice = rgb2hsv(batch[i])
+#                 Y_batch[i] = Y_peice[:,:,0]
+#                 colorblind_batch[i] = X_piece
+#             X_batch = colorblind_batch
+#             # X_batch = lab_batch_colorblind[:,:,:,1:]
+#             # Y_batch = lab_batch[:,:,:,1:] / 128
+#         X_batch_train = X_batch
+#         # [:split_batch]
+#         Y_batch_train = Y_batch
+#         # [:split_batch]
+#         X_batch_train = X_batch_train.reshape(X_batch_train.shape + (1,))
+#         Y_batch_train = Y_batch_train.reshape(Y_batch_train.shape + (1,))
+#         yield (X_batch_train, Y_batch_train) ###+(1,))
+# def image_a_b_gen_train(batch_size):
+#     for batch in datagen.flow(Xtrain, batch_size=batch_size):
+#         split_batch = int(0.90*len(batch))
+#         lab_batch = rgb2lab(batch)
+#         if conversion == 'gray':
+#             X_batch = lab_batch[:,:,:,0]
+#             Y_batch = lab_batch[:,:,:,1:] / 128
+#         else:
+#             colorblind_batch = X_batch * 255
+#             colorblind_batch = simulate_array(colorblind_batch, daltonize)
+#             lab_batch_coloblind = rgb2lab(colorblind_batch)
+#             X_batch = lab_batch_colorblind[:,:,:,1:]
+#             Y_batch = lab_batch[:,:,:,1:]
+#         X_batch_val = X_batch[split_batch:]
+#         X_batch_val = X_batch[split_batch:]
+#         yield (X_batch_val.reshape(X_batch_val.shape), Y_batch_val) ###+(1,))
+
+#### MY CODE 
+# def image_a_b_gen_val(batch_size):
+#     for batch in datagen.flow(Xtrain, batch_size=batch_size):
+#         split_batch = int(0.90*len(batch))
+#         lab_batch = rgb2lab(batch)
+#         if conversion == 'gray':
+#             X_batch = lab_batch[:,:,:,0]
+#             Y_batch = lab_batch[:,:,:,1:] / 128
+#             X_batch_val = X_batch[:split_batch]
+#             X_batch_val = np.reshape(X_batch_val, X_batch_val.shape + (1,))
+#         else:
+#             colorblind_batch = batch
+#             colorblind_batch = simulate_array(colorblind_batch, daltonize)
+#             lab_batch_colorblind = rgb2lab( colorblind_batch)
+#             X_batch = lab_batch_colorblind[:,:,:,1:]
+#             Y_batch = lab_batch[:,:,:,1:]
+#             X_batch_val = X_batch[:split_batch]
+#         Y_batch_val = Y_batch[:split_batch]
+#         yield (X_batch_val.reshape(X_batch_val.shape), Y_batch_val) ###+(1,))
+
+
+
+
+
+
+
+
+# # Test images
+# if conversion == 'gray':
+#     Xtest = rgb2lab(1.0/255*X[split:])[:,:,:,0]
+#     Xtest = Xtest.reshape(Xtest.shape+(1,))
+#     Ytest = rgb2lab(1.0/255*X[split:])[:,:,:,1:]
+#     Ytest = Ytest / 128
+# else:
+#     # Xtest = rgb2lab(simulate_array( 1.0/255*X[split:] , daltonize))[:,:,:,1:]
+#     Xtest = rgb2lab(simulate_array( 1.0/255*X[split:] , daltonize))[:,:,:,1:]
+#     Xtest = Xtest.reshape(Xtest.shape) 
+#     # +(1,)
+#     Ytest = rgb2lab(1.0/255*X[split:])[:,:,:,1:]
+#     # Ytest = rgb2lab(1.0/255*X[split:])[:,:,:,1:]
+#     # Ytest = Ytest / 128
+# print model.evaluate( Xtest, Ytest, batch_size=batch_size)
